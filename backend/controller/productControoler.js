@@ -32,10 +32,12 @@ const createProduct = asyncHandler(async (req, res) => {
   const product = new Product({
     name: "sample",
     image: "/images/sample.jpg",
+    user: req.user._id,
     description: "sample description",
     brand: "sample",
     category: "sample category",
     price: 89.99,
+    numReviews: 0,
     countInStock: 0,
   })
   const createdProduct = await product.save()
