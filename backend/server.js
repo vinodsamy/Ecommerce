@@ -2,6 +2,7 @@ import express from "express"
 import path from "path"
 import connectDB from "./config/db.js"
 import dotenv from "dotenv"
+import morgan from "morgan"
 import productRoutes from "./routes/productRoutes.js"
 import userRoutes from "./routes/userRoutes.js"
 import orderRoutes from "./routes/orderRoutes.js"
@@ -27,6 +28,9 @@ app.get("/api/config/paypal", (req, res) => res.send(process.env.PAYPAL_CLIENT_I
 app.use(notFound)
 app.use(errorHandler)
 app.use(protect)
+if (process.env.NODE_MODE === "development") {
+  app.use(morgan("dev"))
+}
 const __dirname = path.resolve()
 // app.use("/uploads", express.static(path.join(__dirname, "/uploads")))
 app.use("/uploads", express.static("/uploads"))
