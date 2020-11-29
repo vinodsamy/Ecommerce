@@ -7,20 +7,21 @@ import { listProducts } from "../actions/ProductActions"
 import Axios from "axios"
 import Loader from "../components/Loader"
 import Message from "../components/Message"
-const HomeScreen = () => {
+const HomeScreen = ({ match }) => {
   const dispatch = useDispatch()
   const productList = useSelector((state) => state.productList)
   const { loading, products, error } = productList
+  const keyword = match.params.keyword
   //const [products, setProducts] = useState([])
   useEffect(() => {
-    dispatch(listProducts())
+    dispatch(listProducts(keyword))
     // const fetchData = async () => {
     //   const { data } = await Axios.get("/api/products")
     //   console.log("data is", data)
     //   setProducts(data)
     // }
     // fetchData()
-  }, [dispatch])
+  }, [dispatch, keyword])
   //const products = []
   return (
     <>
