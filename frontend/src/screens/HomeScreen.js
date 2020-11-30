@@ -7,21 +7,23 @@ import { listProducts } from "../actions/ProductActions"
 import Axios from "axios"
 import Loader from "../components/Loader"
 import Message from "../components/Message"
+import Paginate from "../components/Paginate"
 const HomeScreen = ({ match }) => {
   const dispatch = useDispatch()
   const productList = useSelector((state) => state.productList)
-  const { loading, products, error } = productList
+  const { loading, products, error, page, pages } = productList
   const keyword = match.params.keyword
+  const pageNumber = match.params.pageNumber
   //const [products, setProducts] = useState([])
   useEffect(() => {
-    dispatch(listProducts(keyword))
+    dispatch(listProducts(keyword, pageNumber))
     // const fetchData = async () => {
     //   const { data } = await Axios.get("/api/products")
     //   console.log("data is", data)
     //   setProducts(data)
     // }
     // fetchData()
-  }, [dispatch, keyword])
+  }, [dispatch, keyword, pageNumber])
   //const products = []
   return (
     <>
@@ -30,13 +32,16 @@ const HomeScreen = ({ match }) => {
       ) : error ? (
         <Message variant="danger">{error}</Message>
       ) : (
-        <Row>
-          {products.map((product) => (
-            <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
-              <Product product={product} />
-            </Col>
-          ))}
-        </Row>
+        <>
+          <Row>
+            {products.map((product) => (
+              <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
+                <Product product={product} />
+              </Col>
+            ))}
+          </Row>
+          <Paginate page={page} pages={pages} keyword={keyword ? keyword : ""} />
+        </>
       )}
     </>
   )
