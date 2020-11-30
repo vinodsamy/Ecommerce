@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 import { Col, Row } from "react-bootstrap"
 import { useDispatch, useSelector } from "react-redux"
 import Product from "../components/Product"
+import { Link } from "react-router-dom"
 // import products from "../products"
 import { listProducts } from "../actions/ProductActions"
 import ProductCarousel from "../components/ProuctCarousel"
@@ -9,6 +10,7 @@ import Axios from "axios"
 import Loader from "../components/Loader"
 import Message from "../components/Message"
 import Paginate from "../components/Paginate"
+import { Meta } from "../components/Meta"
 const HomeScreen = ({ match }) => {
   const dispatch = useDispatch()
   const productList = useSelector((state) => state.productList)
@@ -28,7 +30,14 @@ const HomeScreen = ({ match }) => {
   //const products = []
   return (
     <>
-      {!keyword && <ProductCarousel />}
+      <Meta />
+      {!keyword ? (
+        <ProductCarousel />
+      ) : (
+        <Link to="/" className="btn btn-light">
+          Go Back
+        </Link>
+      )}
       <h1>Latest Products</h1>
       {loading ? (
         <Loader />
